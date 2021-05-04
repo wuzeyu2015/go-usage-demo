@@ -1,0 +1,387 @@
+{
+    "version": "1.0.0",
+    "desc": "zStorage CLI configuration tool.",
+    "copyright": "Yunhe Enmo (Beijing) Information Technology Co., Ltd. 2021, All rights reserved.",
+    "exec": "show_help",
+    "cmds": [
+		{
+            "name": "node",
+            "desc": ["node add/del/list/update/show"],
+            "operations": [
+                {
+                    "name": "add",
+                    "desc": ["add a new node. please add node name", "zs node add <NodeName> <IpAddr1> [IpAddr2]"],
+					"args_len": [2, 3],
+                    "args": [
+                        {
+                            "arg": "nodeName",
+                            "desc": ["Node name. Unique in cluster"],
+                            "type": ["string"],
+                            "limit": "[0-9a-zA-Z_]",
+                            "size": 32
+                        },
+                        {
+                            "arg": "ipAddr1",
+                            "desc": ["Primary ip address of node"],
+                            "type": ["ipv4"]
+                        },
+                        {
+                            "arg": "ipAddr2",
+                            "desc": ["Secondary ip address of node"],
+                            "type": ["ipv4"],
+                            "optional": true
+                        }
+                    ],
+					"args_actual_len": 0,
+                    "exec": "do_node_add",
+					"api": {
+						"method": "POST",
+						"path": "/api/v1/node/create"
+					}
+                },
+				{
+                    "name": "del",
+                    "desc": ["del a node", "zs node del <nodeName>"],
+					"args_len": [1],
+                    "args": [
+                        {
+                            "arg": "nodeName",
+                            "desc": ["Node name. Unique in cluster"],
+                            "type": ["string"],
+                            "limit": "[0-9a-zA-Z_]",
+                            "size": 32
+                        }
+                    ],
+                    "exec": "do_node_del",
+					"api": {
+						"method": "DELETE",
+						"path": "/api/v1/node/delete"
+					}
+                },
+				{
+                    "name": "list",
+                    "desc": ["List a node"],
+					"args_len": [0],
+                    "args": [
+                    ],
+                    "exec": "ListNode",
+					"api": {
+						"method": "GET",
+						"path": "/api/v1/node/list"
+					}
+                },
+				{
+                    "name": "update",
+                    "desc": ["Update a node"],
+					"args_len": [2, 3],
+                    "args": [
+                        {
+                            "arg": "nodeName",
+                            "desc": ["Node name. Unique in cluster"],
+                            "type": ["string"],
+                            "limit": "[0-9a-zA-Z_]",
+                            "size": 32
+                        },
+                        {
+                            "arg": "ipAddr1",
+                            "desc": ["Primary ip address of node"],
+                            "type": ["ipv4"]
+                        },
+                        {
+                            "arg": "ipAddr2",
+                            "desc": ["Secondary ip address of node"],
+                            "type": ["ipv4"],
+                            "optional": true
+                        }
+                    ],
+					"args_actual_len": 0,
+                    "exec": "do_node_del",
+					"api": {
+						"method": "PUT",
+						"path": "/api/v1/node/update"
+					}
+                },
+				{
+                    "name": "show",
+                    "desc": ["Show a node"],
+					"args_len": [1],
+                    "args": [
+                        {
+                            "arg": "nodeName",
+                            "desc": ["Node name. Unique in cluster"],
+                            "type": ["string"],
+                            "limit": "[0-9a-zA-Z_]",
+                            "size": 32
+                        }
+                    ],
+                    "exec": "ShowNode",
+					"api": {
+						"method": "GET",
+						"path": "/api/v1/node/details"
+					}
+                }
+            ]
+        },
+		{
+            "name": "pool",
+			"property": 1,
+            "desc": ["pool add/del/list/update/show"],
+            "operations": [
+                {
+                    "name": "add",
+                    "desc": ["add a new pool.", "zs pool add  <PoolName> <PgNum> <Type> <Cap> [CrushRule]"],
+					"args_len": [4, 5],
+                    "args": [
+                        {
+                            "arg": "poolName",
+                            "desc": ["Pool name. Unique in cluster"],
+                            "type": ["string"],
+                            "limit": "[0-9a-zA-Z_]",
+                            "size": 32
+                        },
+                        {
+                            "arg": "pgNum",
+                            "desc": ["PgNum description..."],
+                            "type": ["int"]
+                        },
+                        {
+                            "arg": "type",
+                            "desc": ["Type description..."],
+                            "type": ["int"]
+                        },
+                        {
+                            "arg": "cap",
+                            "desc": ["Cap description..."],
+                            "type": ["uint64"]
+                        },
+                        {
+                            "arg": "crushRule",
+                            "desc": ["CrushRule description..."],
+                            "type": ["string"],
+                            "optional": true
+                        }
+                    ],
+					"args_actual_len": 0,
+                    "exec": "...",
+					"api": {
+						"method": "POST",
+						"path": "/api/v1/pool/create"
+					}
+                },
+				{
+                    "name": "del",
+                    "desc": ["del a pool", "zs pool del  <poolName>"],
+					"args_len": [1],
+                    "args": [
+                        {
+                            "arg": "poolName",
+                            "desc": ["PoolName description..."],
+                            "type": ["string"],
+                            "limit": "[0-9a-zA-Z_]",
+                            "size": 32
+                        }
+                    ],
+                    "exec": "...",
+					"api": {
+						"method": "DELETE",
+						"path": "/api/v1/pool/delete"
+					}
+                },
+				{
+                    "name": "list",
+                    "desc": ["list a pool", "zs pool list"],
+					"args_len": [0],
+                    "args": [
+                    ],
+                    "exec": "ListPool",
+					"api": {
+						"method": "GET",
+						"path": "/api/v1/pool/list"
+					}
+                },
+				{
+                    "name": "update",
+                    "desc": ["Update a pool", "zs pool update <poolName> <PgNum> <Type> <Cap> [crushRule]"],
+					"args_len": [4, 5],
+                    "args": [
+                        {
+                            "arg": "poolName",
+                            "desc": ["Pool name. Unique in cluster"],
+                            "type": ["string"],
+                            "limit": "[0-9a-zA-Z_]",
+                            "size": 32
+                        },
+                        {
+                            "arg": "pgNum",
+                            "desc": ["PgNum description..."],
+                            "type": ["int"]
+                        },
+                        {
+                            "arg": "type",
+                            "desc": ["Type description..."],
+                            "type": ["int"]
+                        },
+                        {
+                            "arg": "cap",
+                            "desc": ["Cap description..."],
+                            "type": ["uint64"]
+                        },
+                        {
+                            "arg": "crushRule",
+                            "desc": ["CrushRule description..."],
+                            "type": ["string"],
+                            "optional": true
+                        }
+                    ],
+					"args_actual_len": 0,
+                    "exec": "...",
+					"api": {
+						"method": "PUT",
+						"path": "/api/v1/pool/update"
+					}
+                },
+				{
+                    "name": "show",
+                    "desc": ["Show a pool"],
+					"args_len": [1],
+                    "args": [
+                        {
+                            "arg": "poolName",
+                            "desc": ["PoolName description..."],
+                            "type": ["string"],
+                            "limit": "[0-9a-zA-Z_]",
+                            "size": 32
+                        }
+                    ],
+                    "exec": "ShowPool",
+					"api": {
+						"method": "GET",
+						"path": "/api/v1/pool/details"
+					}
+                }
+            ]
+        },
+		{
+            "name": "pool osd",
+            "desc": ["pool osd add/del/list/show"],
+            "operations": [
+                {
+                    "name": "add",
+                    "desc": ["add a new pool osd.", "zs pool osd add <poolName> <nodeName> <osdName>"],
+					"args_len": [3],
+                    "args": [
+                        {
+                            "arg": "poolName",
+                            "desc": ["Pool name. Unique in cluster"],
+                            "type": ["string"],
+                            "limit": "[0-9a-zA-Z_]",
+                            "size": 32
+                        },
+                        {
+                            "arg": "nodeName",
+                            "desc": ["nodeName description..."],
+                            "type": ["string"]
+                        },
+                        {
+                            "arg": "osdName",
+                            "desc": ["osdName description..."],
+                            "type": ["string"]
+                        }
+                    ],
+                    "exec": "...",
+					"api": {
+						"method": "POST",
+						"path": "/api/v1/poolosd/create"
+					}
+                },
+				{
+                    "name": "del",
+                    "desc": ["del a pool osd", "zs pool osd del <poolName> <nodeName> <osdName>"],
+					"args_len": [1],
+                    "args": [
+                        {
+                            "arg": "poolName",
+                            "desc": ["PoolName description..."],
+                            "type": ["string"],
+                            "limit": "[0-9a-zA-Z_]",
+                            "size": 32
+                        }
+                    ],
+                    "exec": "...",
+					"api": {
+						"method": "DELETE",
+						"path": "/api/v1/poolosd/delete"
+					}
+                },
+				{
+                    "name": "list",
+                    "desc": ["list a pool osd", "zs pool osd list"],
+					"args_len": [0],
+                    "args": [
+                    ],
+                    "exec": "ListPoolOsd",
+					"api": {
+						"method": "GET",
+						"path": "/api/v1/poolosd/list"
+					}
+                },
+				{
+                    "name": "show",
+                    "desc": ["Show a pool osd", "zs pool osd show <poolName>"],
+					"args_len": [1],
+                    "args": [
+                        {
+                            "arg": "poolName",
+                            "desc": ["PoolName description..."],
+                            "type": ["string"],
+                            "limit": "[0-9a-zA-Z_]",
+                            "size": 32
+                        }
+                    ],
+                    "exec": "ShowPoolOsd",
+					"api": {
+						"method": "GET",
+						"path": "/api/v1/poolosd/details"
+					}
+                }
+            ]
+        },
+		{
+            "name": "crush",
+            "desc": ["crush dump, ", "crush load <json_path>"],
+            "operations": [
+                {
+                    "name": "dump",
+                    "desc": ["dump a crush configuration.", "zs crush dump"],
+					"args_len": [0],
+                    "args": [
+                    ],
+                    "exec": "DumpCrash",
+					"api": {
+						"method": "GET",
+						"path": "/api/v1/crush/dump"
+					}
+                },
+				{
+                    "name": "load",
+                    "desc": ["load a crush configuration from a given path", "zs crush load <json_path>"],
+					"args_len": [1],
+                    "args": [
+                        {
+                            "arg": "jsonPath",
+                            "desc": ["a file written in json form"],
+                            "type": ["path"],
+                            "limit": "[0-9a-zA-Z_]",
+                            "size": 32
+                        }
+                    ],
+                    "exec": "...",
+					"api": {
+						"method": "PUT",
+						"path": "/api/v1/crush/load"
+					}
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,59 @@
+{
+    "max_retries":50,
+    "max_local_retries":8,
+    "failure_domain":{
+        "osd":0,
+        "host":1,
+        "chassis":2,
+        "rack":3,
+        "row":4,
+        "pdu":5,
+        "pod":6,
+        "room":7,
+        "datacenter":8,
+        "region":9,
+        "root":10
+    },
+    "osd":[
+        {"node_name":"node1", "osd_name":"osd1_1", "weight":1.0, "class":"ssd"},
+        {"node_name":"node1", "osd_name":"osd1_2", "weight":1.0, "class":"ssd,hdd"}
+    ],
+    "bucket":{
+        "my_root":{
+            "failure_domain":"root",
+            "alg":"straw2",
+            "hash":"rjenkins1",
+            "bucket":{
+                "my_host1":{
+                    "failure_domain":"host",
+                    "alg":"straw2",
+                    "hash":"rjenkins1",
+                    "bucket":{
+                        "n01_osd01":{
+                            "failure_domain":"osd"
+                        },
+                        "n02_osd02":{
+                            "failure_domain":"osd"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "rule":{
+        "my_rule1":{
+            "redundancy":"erasure",
+            "min_size":1,
+            "max_size":10,
+            "step":[
+                {"operation":"take", "root":"my_root", "class":"ssd"},
+                {"operation":"choose", "failure_domain":"host", "choose_leaf":true, "policy":"firstn", "num_rep":1},
+                {"operation":"emit"},
+                {"operation":"take", "root":"my_root", "class":"hdd"},
+                {"operation":"choose", "failure_domain":"host", "choose_leaf":false, "policy":"firstn", "num_rep":2},
+                {"operation":"choose", "failure_domain":"osd", "choose_leaf":false, "policy":"firstn", "num_rep":1},
+                {"operation":"emit"}
+            ]
+        }
+    }
+}

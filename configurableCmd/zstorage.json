@@ -1,0 +1,9 @@
+{
+    "controllers": [
+        {
+            "ip": "127.0.0.1",
+            "name": "wzynode01"
+        }
+    ],
+    "cluster_id": "icbc001"
+}
